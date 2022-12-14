@@ -24,6 +24,10 @@ $ npm i -D eslint eslint-plugin-vue eslint-config-standard-with-typescript @type
 
 # install eslint for vite
 $ npm i -D vite-plugin-eslint
+
+# install @typescript-eslint/parser for parser engine, and add parser object to .eslintrc.cjs 
+$ npm i -D @typescript-eslint/parser
+
 ```
 
 ## Vue 3 + TypeScript + Vite
