@@ -1,18 +1,27 @@
 ## doc source: https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html
 
 spring:
+  jackson:
+    time-zone: Asia/Taipei
+
+  # 單一資料庫設置
   datasource:
     url: jdbc:h2:mem:books
     driverClassName: org.h2.Driver
     username: sa
     password: sapwd
+    hikari:
+      maximum-pool-size: 30
+      minimum-idle: 0
+      idle-timeout: 30_000
+      max-lifetime: 180_000
 
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: none
     open-in-view: false
-
+    show-sql: true
 
   h2:
     console:

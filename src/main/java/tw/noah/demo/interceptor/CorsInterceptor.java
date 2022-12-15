@@ -18,9 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Component
 public class CorsInterceptor implements HandlerInterceptor {
 
-    //    @Value("#{'${cors.allow_origin}'.trim().replaceAll(' ','').split(',')}")
-    //    private List corsAllowOrigin;
-
     @SneakyThrows
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {

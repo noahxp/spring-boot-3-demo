@@ -2,7 +2,6 @@ package tw.noah.demo.interceptor;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
@@ -30,7 +29,6 @@ public class CommonInterceptor implements HandlerInterceptor {
         return true;
     }
 
-    @SneakyThrows
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
         log.info("request.postHandle({})={}", request.getMethod(), request.getRequestURL().toString());

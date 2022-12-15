@@ -7,14 +7,20 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Result {
+public class HttpResult {
 
     public enum Status {
         success, failure;
     }
 
+    /**
+     * response message
+     */
     private Status status;
 
+    /**
+     * response main data
+     */
     private Object data;
 
 }
