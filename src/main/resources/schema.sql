@@ -9,8 +9,14 @@ CREATE TABLE BOOK
     CONSTRAINT BOOKS_PK PRIMARY KEY (BOOK_ID)
 );
 
-insert into BOOK(BOOK_NAME, ISBN, BOOK_AUTHOR_ID, CREATE_DATE)
-values ('Think in Java', '9861815023', 1, NOW());
+-- insert into BOOK(BOOK_NAME, ISBN, BOOK_AUTHOR_ID, CREATE_DATE)
+-- values ('Think in Java', '9861815023', 1, NOW());
+--
+-- insert into BOOK(BOOK_NAME, ISBN, BOOK_AUTHOR_ID, CREATE_DATE)
+-- values ('Think in C#', '9780130385727', 1, NOW());
+--
+-- insert into BOOK(BOOK_NAME, ISBN, BOOK_AUTHOR_ID, CREATE_DATE)
+-- values ('Thinking Functionally in PHP', '453454575678', 1, NOW());
 
 CREATE TABLE BOOK_AUTHOR
 (

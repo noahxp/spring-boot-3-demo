@@ -6,6 +6,8 @@ import java.util.Map;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tw.noah.demo.model.HttpResult;
@@ -15,6 +17,12 @@ import tw.noah.demo.model.HttpResult.Status;
 @RequestMapping("/abc")
 @Log4j2
 public class TestController {
+
+    @PostMapping(value = "/post")
+    public void post(@RequestBody String body) {
+        log.info("abc-post");
+        log.info(body);
+    }
 
     @GetMapping(value = "/aa")
     public void aa(HttpEntity<String> httpEntity) {
@@ -48,4 +56,5 @@ public class TestController {
     public HttpResult ff(HttpEntity<String> httpEntity) {
         return new HttpResult(Status.success, new Date());
     }
+
 }

@@ -1,8 +1,9 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.0.4'
+    id 'org.springframework.boot' version '3.1.0'
     id 'io.spring.dependency-management' version '1.1.0'
-    id 'com.google.cloud.tools.jib' version '3.3.1'
+    id 'com.google.cloud.tools.jib' version '3.3.2'
+    id 'nebula.lint' version "18.1.0"
 }
 
 group = 'tw.noah'
@@ -20,57 +21,47 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-    implementation 'com.google.guava:guava:31.1-jre'
+        implementation 'com.google.guava:guava:32.0.0-jre'
+        implementation 'org.apache.commons:commons-lang3'
 
-    implementation 'org.apache.commons:commons-lang3'
+        implementation 'io.grpc:grpc-stub:1.55.1'
+        implementation 'io.grpc:grpc-protobuf:1.55.1'
 
-    runtimeOnly 'com.h2database:h2'
+        runtimeOnly 'com.h2database:h2'
 
-    compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+        compileOnly 'org.projectlombok:lombok'
+        developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    annotationProcessor 'org.projectlombok:lombok'
+        annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+        annotationProcessor 'org.projectlombok:lombok'
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
 }
 
-
-tasks.register('preJibBuild') {
-    doLast {
-        exec {
-            workingDir '.'
-            commandLine 'sh', '-c', 'docker build --platform linux/amd64 -t="noahxp-spring-boot:latest" .'
-        }
-    }
-}
-
+// build multi arch, multi tag. it's will build multi arch and push to docker hub.
+// $ ./gradlew jib -Djib.from.platforms=linux/amd64,linux/arm64 -Djib.to.image=mikasaxp/spring-boot:latest -Djib.to.tags=abc
 jib {
-    from.image = 'docker://noahxp-spring-boot:latest' // docker image source write in Dockerfile
-
-    to {
-        image = "noahxp/spring-boot:latest"
-    }
+    from.image = 'amazoncorretto:17-alpine-jdk'
+    to.image = "noahxp/spring-boot:latest"
     container {
+        mainClass = 'tw.noah.demo.Application'
         jvmFlags = ['-Djava.security.egd=file:/dev/./urandom', '-Dserver.port=8080', '-Duser.timezone=Asia/Taipei']
+        ports = ['8080']
         creationTime = 'USE_CURRENT_TIMESTAMP'
+        environment = [   // Dockerfile ENV
+            'TZ': 'Asia/Taipei'
+        ]
     }
 }
-
-tasks.register('docker-build') {
-    finalizedBy("preJibBuild")
-    finalizedBy("jibDockerBuild")
-}
-
 
 wrapper {
-    gradleVersion = '7.5.1'
+    gradleVersion = '8.1.1'
     distributionType = Wrapper.DistributionType.BIN
 }
